@@ -1,0 +1,17 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import roc_auc_score data = pd.read_csv('heart_disease_data.data', header=None)
+X = data.iloc[:, :-1] 
+y = data.iloc[:, -1] 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+initial_model = GaussianNB()
+initial_model.fit(X_train, y_train)
+initial_predictions = initial_model.predict_proba(X_test)[:, 1]]
+initial_auc = roc_auc_score(y_test, initial_predictions)
+print("Initial AUC:", initial_auc)
+fine_tuned_model = GaussianNB() 
+fine_tuned_model.fit(X_train, y_train)
+fine_tuned_predictions = fine_tuned_model.predict_proba(X_test)[:, 1]
+fine_tuned_auc = roc_auc_score(y_test, fine_tuned_predictions)
+print("Fine-tuned AUC:", fine_tuned_auc)
